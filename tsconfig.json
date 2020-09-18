@@ -17,15 +17,16 @@
     "baseUrl": ".",
     "paths": {
       "~/*": [
-        "./*"
+        "./src/client/*"
       ],
       "@/*": [
-        "./*"
+        "./src/client/*"
       ]
     },
     "types": [
       "@types/node",
-      "@nuxt/types"
+      "@nuxt/types",
+      "@nuxtjs/axios"
     ]
   },
   "exclude": [
