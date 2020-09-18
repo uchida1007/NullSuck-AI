@@ -14,12 +14,15 @@
   </v-layout>
 </template>
 
-<script>
-import FormCard from '~/components/Form/FormCard.vue'
+<script lang="ts">
+import {Vue, Component} from 'nuxt-property-decorator'
 
-export default {
+@Component({
   components: {
-    FormCard
+    FormCard: () => import('@/components/Form/FormCard.vue')
   }
+})
+
+export default class Index extends Vue {
 }
 </script>
