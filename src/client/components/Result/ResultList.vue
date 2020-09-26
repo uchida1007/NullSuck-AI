@@ -1,16 +1,29 @@
 <template>
   <v-list two-line>
-    <template v-for="w in 11">
+    <template v-for="w in wineAttr">
       <v-list-item>
         <v-list-item-content>
-          <v-list-item-title>酒石酸濃度</v-list-item-title>
-          <v-list-item-subtitle>fixedacidity</v-list-item-subtitle>
+          <v-list-item-title>{{w.japanese_title}}</v-list-item-title>
+          <v-list-item-subtitle>{{w.english_title}}</v-list-item-subtitle>
         </v-list-item-content>
         <v-list-item-action>
-          <v-list-item-action-text> 0.1</v-list-item-action-text>
+          <v-list-item-action-text> {{w.value }} </v-list-item-action-text>
         </v-list-item-action>
       </v-list-item>
       <v-divider></v-divider>
     </template>
   </v-list>
 </template>
+
+<script lang="ts">
+  import { Vue, Component } from 'nuxt-property-decorator'
+  import { appStore } from "@/store";
+
+  // StateにアクセスするためのGetterを用意し、HTML側でvforを用いて、入力の個数分だけカードを繰り返し出力
+  @Component
+  export default class extends Vue {
+    get wineAttr() {
+      return appStore.wineAttributes;
+    }
+  }
+</script>

@@ -9,20 +9,45 @@
         データをもとにAIが診断します。
       </div>
     </div>
-    <form-card v-for="i in 11":key="`${i}`"/>
+    <form-card v-for="wineAttr in wineAttributes" :key="`${wineAttr.id}`" :wine-attr="wineAttr" :total="wineAttributes.length"/>
+    <div v-if="isError" class="red--text body-2 text-center">入力されていない数値があります</div>
     <v-btn @click="submit">診断結果を表示する</v-btn>
   </v-layout>
 </template>
 
 <script lang="ts">
-import {Vue, Component} from 'nuxt-property-decorator'
+  import {Vue, Component} from 'nuxt-property-decorator'
+  import { appStore } from '@/store';
 
-@Component({
-  components: {
-    FormCard: () => import('@/components/Form/FormCard.vue')
+  @Component({
+    components: {
+      FormCard: () => import('@/components/Form/FormCard.vue')
+    }
+  })
+
+  export default class Index extends Vue {
+    private isError: boolean = false;
+    
+    // ワインの属性値のGetter
+    get wineAttributes() {
+      return appStore.wineAttributes;
+    }
+
+    // このページが作られたときにページタイトルを「入力」にする
+    private created() {
+      appStore.SET_TITLE('入力');
+    }
+
+    // ボタンが押された時の処理
+    private async submit() {
+      // 1つでも入力されていなかった場合
+      if(!appStore.IsAllValueSet()) {
+        this.isError = true;
+        return
+      }
+      this.isError = false;
+      await appStore.POST_WINE_VALUE();
+      await this.$router.push('/result')
+    }
   }
-})
-
-export default class Index extends Vue {
-}
 </script>
